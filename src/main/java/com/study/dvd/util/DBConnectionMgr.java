@@ -52,6 +52,7 @@ public class DBConnectionMgr {
     private static DBConnectionMgr instance = null;
 
     private DBConnectionMgr() {
+    	
     }
 
     /** Use this method to set the maximum number of open connections before

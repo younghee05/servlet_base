@@ -6,18 +6,17 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.cj.xdevapi.Result;
 import com.study.dvd.entity.Dvd;
 import com.study.dvd.util.DBConnectionMgr;
 
 public class DvdDao {
-	private static DBConnectionMgr pool = DBConnectionMgr.getInstance();
+	private static DBConnectionMgr pool = DBConnectionMgr.getInstance(); 
 	
-	public static List<Dvd> searchDvdByTitle(String searchText) {
-		List<Dvd> dvds = new ArrayList<>();
+	public static List<Dvd> searchDvdByTitle(String searchText) { // searchText : title을 검색
+		List<Dvd> dvds = new ArrayList<>(); // 비어있는 리스트 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		ResultSet rs = null; // ResultSet으로 초기화 시킴 
 		
 		try {
 			con = pool.getConnection();
@@ -26,7 +25,7 @@ public class DvdDao {
 			sql.append("where title like ? limit 0, 50"); // \"%?%\" -> setString을 하면 하나의 문자로 인식이 되기 때문에 그냥 ? 만 해준다 
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, "%" + searchText + "%");
-			rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery(); // ResultSet을 한 select들을 executeQuery를 이용해 나타낸다.
 			
 			while (rs.next()) {
 				Dvd dvd = Dvd.builder()
@@ -40,7 +39,8 @@ public class DvdDao {
 						.publicationYear(rs.getInt(8))
 						.databaseDate(rs.getDate(9).toLocalDate())
 						.build();
-						
+				
+				dvds.add(dvd); // dvd list 안에 넣기 위함 
 			}
 			
 		} catch (Exception e ) {
