@@ -3,6 +3,12 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%
+	String st = request.getParameter("searchText");
+	List<Producer> producers = ProducerDao.searchProducerByProducerName(st); // st를 불러옴 
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,11 +37,6 @@
 				
 	</div>
 	
-	<%
-		String searchText = request.getParameter("searchText");
-		List<Producer> producers = ProducerDao.searchProducerByProducerName(searchText);
-	%>
-	
 	<table>
 		<thead>
 			<th>제작사ID</th>
@@ -43,6 +44,7 @@
 		</thead>
 		<tbody>
 			<%
+				// 람다식은 안먹힘 
 				for(Producer producer : producers) {
 			%>
 				<tr>
